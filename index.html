@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fildr - Fill. Folder. Done. File organizer for Windows</title>
+<meta name="description" content="Fildr sorts your messy folders into Pictures, Videos, Docs and more, automatically. Fill. Folder. Done. Free app for Windows.">
+<meta name="theme-color" content="#10B981">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<style>
+:root{
+  --bg:#F5FBF8; --surface:#FFFFFF; --text:#10231C; --muted:#4B6358; --line:#D5EBE1;
+  --primary:#10B981; --primary-d:#0A8F63; --accent:#34D399; --navy:#1F2A6B; --on-primary:#04251A;
+  --soft:#E7F7F0; --shadow:0 10px 30px rgba(16,35,28,.10);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0F1A17; --surface:#16251F; --text:#E8F5EF; --muted:#9DB8AC; --line:#25392F;
+    --soft:#14241E; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+img,video,iframe{max-width:100%;display:block}
+a{color:inherit}
+.wrap{width:100%;max-width:1060px;margin:0 auto;padding:0 16px}
+h1,h2,h3{line-height:1.2;margin:0}
+h2{font-size:clamp(1.5rem,4.5vw,2.1rem);text-align:center}
+section{padding:56px 0}
+.sub{color:var(--muted);text-align:center;max-width:620px;margin:10px auto 32px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.2rem;text-decoration:none}
+.brand img{width:34px;height:34px}
+.links{display:flex;align-items:center;gap:18px}
+.links a.t{text-decoration:none;color:var(--muted);font-weight:600;font-size:.95rem}
+.links a.t:hover{color:var(--text)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--primary);color:var(--on-primary);font-weight:700;text-decoration:none;border:0;border-radius:12px;padding:14px 26px;font-size:1.05rem;cursor:pointer;transition:transform .15s,background .15s;box-shadow:0 6px 18px rgba(16,185,129,.35)}
+.btn:hover{background:var(--accent);transform:translateY(-1px)}
+.btn.small{padding:8px 16px;font-size:.92rem;box-shadow:none}
+.btn.kofi{background:transparent;color:#C93C38;border:1.5px solid #FF8A80;box-shadow:none}
+.btn.kofi:hover{background:#FFE8E3;transform:none}
+@media (prefers-color-scheme:dark){.btn.kofi{color:#FF8A80}.btn.kofi:hover{background:#3A1F1C}}
+.btn.ghost{background:transparent;color:var(--text);border:1.5px solid var(--line);box-shadow:none}
+.btn.ghost:hover{background:var(--soft);transform:none}
+.btn[aria-disabled=true]{background:var(--line);color:var(--muted);box-shadow:none;cursor:not-allowed;transform:none}
+
+/* hero */
+.hero{padding:44px 0 24px;text-align:center}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--line);color:var(--primary-d);font-weight:700;font-size:.85rem;border-radius:99px;padding:6px 14px}
+@media (prefers-color-scheme:dark){.pill{color:var(--accent)}}
+.tagline{margin:14px 0 0;font-weight:800;letter-spacing:.02em;color:var(--primary-d)}
+.tagline span{color:var(--muted);font-weight:400;margin:0 4px}
+@media (prefers-color-scheme:dark){.tagline{color:var(--accent)}}
+.gallery{display:grid;gap:18px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media (min-width:760px){.gallery{grid-template-columns:1fr 1fr}}
+.gallery figure{margin:0}.gallery figcaption{text-align:center;color:var(--muted);font-size:.92rem;margin-top:10px}
+.hero h1{font-size:clamp(2rem,8vw,3.6rem);margin:12px auto 14px;max-width:14em;letter-spacing:-.02em}
+.hero h1 span{color:var(--primary)}
+.hero p.lead{color:var(--muted);font-size:clamp(1rem,3.5vw,1.2rem);max-width:600px;margin:0 auto 26px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.note{font-size:.88rem;color:var(--muted);margin-top:14px}
+.shot{margin:40px auto 0;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;max-width:880px;background:var(--surface)}
+.shot img{width:100%;height:auto}
+
+/* warning */
+.warn{display:none;background:#FFF4D6;color:#5C4400;border:1px solid #F2D58A;border-radius:12px;padding:12px 16px;margin:0 auto 22px;max-width:520px;font-size:.95rem;text-align:left}
+.warn.show{display:block}
+@media (prefers-color-scheme:dark){.warn{background:#3A2F10;color:#FFE7A3;border-color:#6B5619}}
+
+/* video */
+.video{max-width:820px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:var(--navy);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;color:#fff;text-align:center}
+.video iframe,.video video{width:100%;height:100%;border:0}
+.video .ph{padding:20px}
+.video .ph img{width:64px;height:64px;margin:0 auto 10px;opacity:.9}
+
+/* features */
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:600px){.grid{grid-template-columns:1fr 1fr}}
+@media (min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card .ic{width:42px;height:42px;border-radius:11px;background:var(--soft);display:grid;place-items:center;font-size:1.3rem;margin-bottom:12px}
+.card h3{font-size:1.05rem;margin-bottom:6px}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* steps */
+.steps{display:grid;gap:14px;grid-template-columns:1fr;counter-reset:s}
+@media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;position:relative}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--primary);color:var(--on-primary);font-weight:800;margin-bottom:12px}
+.step h3{font-size:1.05rem;margin-bottom:6px}
+.step p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* faq */
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px;max-width:720px;margin-left:auto;margin-right:auto}
+summary{cursor:pointer;font-weight:700}
+details p{color:var(--muted);margin:10px 0 0;font-size:.96rem}
+
+/* final cta + footer */
+.final{background:var(--navy);color:#fff;text-align:center;border-radius:20px;padding:40px 20px}
+.final h2{color:#fff}
+.final p{color:#C9D1FF;margin:10px auto 22px;max-width:520px}
+footer{padding:32px 0 40px;text-align:center;color:var(--muted);font-size:.9rem}
+footer a{color:var(--primary-d);font-weight:600}
+@media (prefers-color-scheme:dark){footer a{color:var(--accent)}}
+@media (max-width:480px){.kofi .lbl{display:none}.links a.t{display:none}.btn{width:100%}.btn.small{width:auto}.cta{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="logo.svg" alt="" width="34" height="34">Fildr</a>
+    <div class="links">
+      <a class="t" href="#look">Look</a>
+      <a class="t" href="#features">Features</a>
+      <a class="t" href="#how">How it works</a>
+      <a class="t" href="#faq">FAQ</a>
+      <a class="btn small kofi" href="https://ko-fi.com/ganawil60" target="_blank" rel="noopener">☕<span class="lbl"> Support</span></a>
+      <a class="btn small" data-dl href="#">Download</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="pill">🪟 For Windows PCs only</span>
+    <p class="tagline">Fildr <span>|</span> Fill. Folder. Done.</p>
+    <h1>Messy folders, <span>sorted for you.</span></h1>
+    <p class="lead">Fildr puts your files into Pictures, Videos, Docs and more. Do it with one click, or let it keep Downloads tidy in the background.</p>
+    <div class="warn" id="warn"><strong>You're not on a Windows PC.</strong> Fildr only runs on Windows. It doesn't work on Android, iPhone or Mac. Open this page on your Windows computer to download it.</div>
+    <div class="cta">
+      <a class="btn" id="dl" data-dl href="#">⬇ Download for Windows</a>
+      <a class="btn ghost" href="#features">See features</a>
+    </div>
+    <p class="note">Free · Windows 10 and 11 · Not available for Android</p>
+    <div class="shot">
+      <picture>
+        <source srcset="img/items-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="img/items-light.png" alt="Fildr preview of a Downloads folder with each file and the folder it will go to" width="1120" height="760">
+      </picture>
+    </div>
+  </div>
+</header>
+
+<section id="video">
+  <div class="wrap">
+    <h2>About Fildr</h2>
+    <p class="sub">A short look at how Fildr cleans up a folder.</p>
+    <div class="video" id="video-box">
+      <div class="ph"><img src="logo.svg" alt=""><strong>Video coming soon</strong></div>
+    </div>
+  </div>
+</section>
+
+<section id="look">
+  <div class="wrap">
+    <h2>Clean, modern, easy</h2>
+    <p class="sub">See your folders as tiles, and manage background folders with simple switches.</p>
+    <div class="gallery">
+      <figure class="shot" style="margin:0"><picture><source srcset="img/folders-dark.png" media="(prefers-color-scheme: dark)"><img src="img/folders-light.png" alt="Organized folders shown as tiles" width="1120" height="760" loading="lazy"></picture><figcaption>Organized folders</figcaption></figure>
+      <figure class="shot" style="margin:0"><picture><source srcset="img/auto-dark.png" media="(prefers-color-scheme: dark)"><img src="img/auto-light.png" alt="Auto-manage page with a switch for each watched folder" width="1120" height="760" loading="lazy"></picture><figcaption>Auto-manage</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Everything you need to stay organized</h2>
+    <p class="sub">Simple to use, safe by design, and quiet when you don't need it.</p>
+    <div class="grid">
+      <div class="card"><div class="ic">🗂️</div><h3>One-click organizing</h3><p>Pick a folder and press Organize. Nothing moves until you say so, and you can see where every file will go first.</p></div>
+      <div class="card"><div class="ic">⚡</div><h3>Runs in the background</h3><p>Choose folders like Downloads and Fildr sorts new files automatically, even when the window is closed.</p></div>
+      <div class="card"><div class="ic">🔔</div><h3>Pop-up notifications</h3><p>A small box shows what moved and where, with a link that opens the folder with the files already selected.</p></div>
+      <div class="card"><div class="ic">🎨</div><h3>Custom folder icons</h3><p>Give each category folder its own icon, for one folder, several, or all folders with that name.</p></div>
+      <div class="card"><div class="ic">↩️</div><h3>Undo and activity log</h3><p>Changed your mind? Undo the last batch or restore older moves from the saved log.</p></div>
+      <div class="card"><div class="ic">🚫</div><h3>Exclusions</h3><p>Choose files or folders that are never moved. Restored files are excluded automatically.</p></div>
+      <div class="card"><div class="ic">🧬</div><h3>Duplicate finder</h3><p>Finds files with identical content, keeps the oldest copy and lets you move or delete the extras.</p></div>
+      <div class="card"><div class="ic">📦</div><h3>Large files finder</h3><p>Lists your biggest files so you can free up space quickly.</p></div>
+      <div class="card"><div class="ic">🛠️</div><h3>Made your way</h3><p>Custom categories, sort by date, rename prefixes, an ignore list, and light or dark themes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background:var(--soft)">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">Three steps and you're done.</p>
+    <div class="steps">
+      <div class="step"><h3>Choose a folder</h3><p>Open Fildr and pick the folder you want to tidy, such as Downloads.</p></div>
+      <div class="step"><h3>Check the preview</h3><p>See every file and the folder it will go to before anything moves.</p></div>
+      <div class="step"><h3>Press Organize</h3><p>Your files are sorted. Turn on Auto-manage to keep it that way.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <p class="sub"></p>
+    <details><summary>Does it work on Android or phones?</summary><p>No. Fildr is a Windows desktop app. It runs on Windows 10 and 11 computers only. You can read this page on your phone, but you need a Windows PC to use the app.</p></details>
+    <details><summary>Is it safe? Windows shows a warning.</summary><p>Windows SmartScreen or your antivirus may warn about new apps that aren't code-signed. Fildr is open source, so you can read the code on GitHub or build it yourself. Choose "More info", then "Run anyway" if you trust it.</p></details>
+    <details><summary>Will it overwrite my files?</summary><p>No. Existing folders are merged, and files with the same name are renamed (like <em>photo (1).jpg</em>) instead of being replaced. You can also Undo.</p></details>
+    <details><summary>Why wasn't one of my files moved?</summary><p>Files that are still downloading, or open in another program like Word, are skipped until they're ready. Files on your ignore or exclusion list are skipped too.</p></details>
+    <details><summary>Does it need to be installed?</summary><p>No. Download the .exe and double-click it. To remove it, delete the file.</p></details>
+  </div>
+</section>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="final">
+      <h2>Ready to sort things out?</h2>
+      <p>Download Fildr and give your folders a clean start.</p>
+      <a class="btn" data-dl href="#">⬇ Download for Windows</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Fildr · Windows only · <a id="repo" href="#">View on GitHub</a></p>
+  </div>
+</footer>
+
+<script>
+/* ===== Settings: edit these lines ===== */
+var GITHUB_USER = "Ganawil60";
+var GITHUB_REPO = "Fildr";
+var EXE_NAME    = "Fildr.exe";   /* must match the file name attached to your GitHub Release */
+var VIDEO_URL   = "https://youtu.be/3WlPHS4oxso";              /* YouTube link (watch, youtu.be or embed) or an .mp4 file path. Empty = "coming soon" */
+/* ====================================== */
+
+var repo = "https://github.com/" + GITHUB_USER + "/" + GITHUB_REPO;
+var DOWNLOAD_URL = "https://github.com/Ganawil60/Fildr/releases/download/1.0.0/Fildr.exe"; /* direct link to the exe; change it when you publish a new version */
+var dlUrl = DOWNLOAD_URL;
+document.getElementById("repo").href = repo;
+
+var isWindows = /Windows/i.test(navigator.userAgent) && !/Windows Phone/i.test(navigator.userAgent);
+var links = document.querySelectorAll("[data-dl]");
+for (var i = 0; i < links.length; i++) {
+  if (isWindows) {
+    links[i].href = dlUrl;
+    links[i].setAttribute("download", EXE_NAME);
+  } else {
+    links[i].href = "#top";
+    links[i].setAttribute("aria-disabled", "true");
+    links[i].textContent = "Windows PC only";
+    links[i].addEventListener("click", function (e) {
+      e.preventDefault();
+      document.getElementById("warn").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
+}
+if (!isWindows) document.getElementById("warn").classList.add("show");
+
+(function () {
+  if (!VIDEO_URL) return;
+  var box = document.getElementById("video-box"), m;
+  if (/\.mp4(\?|$)/i.test(VIDEO_URL)) {
+    box.innerHTML = '<video controls playsinline preload="metadata" src="' + VIDEO_URL + '"></video>';
+  } else if ((m = VIDEO_URL.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/))) {
+    box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="Fildr video" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
+  }
+})();
+</script>
+</body>
+</html>

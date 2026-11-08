@@ -1,0 +1,21 @@
+<svg width="512" height="512" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Folder organiser logo">
+  <path d="M40 56H96Q104 56 110 63L122 78H216Q232 78 232 94V206Q232 222 216 222H40Q24 222 24 206V72Q24 56 40 56Z" fill="#1F2A6B"/>
+  <g transform="rotate(-10 84 120)">
+    <rect x="52" y="38" width="64" height="84" rx="10" fill="#FF6B57"/>
+    <path d="M77 55L77 81L99 68Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <rect x="96" y="24" width="64" height="92" rx="10" fill="#19C3B1"/>
+    <path d="M130 76V46L144 50" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="123" cy="77" rx="8" ry="6" fill="#FFFFFF"/>
+  </g>
+  <g transform="rotate(10 172 120)">
+    <rect x="140" y="38" width="64" height="84" rx="10" fill="#FFB629"/>
+    <path d="M161 56L150 68L161 80M183 56L194 68L183 80" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="M24 118Q24 102 40 102H216Q232 102 232 118V206Q232 222 216 222H40Q24 222 24 206Z" fill="#4361F2"/>
+  <path d="M40 103H216" stroke="#7F95FF" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="56" cy="196" r="7" fill="#FF6B57"/>
+  <circle cx="80" cy="196" r="7" fill="#19C3B1"/>
+  <circle cx="104" cy="196" r="7" fill="#FFB629"/>
+</svg>
